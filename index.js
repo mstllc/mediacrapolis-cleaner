@@ -1,15 +1,14 @@
 import 'dotenv/config'
 
-import { getAllAvailableOverseerrRequests } from './lib/apis/overseerr.js'
+import { getAllOverseerrRequests } from './lib/apis/overseerr.js'
 import cleanMovies from './lib/movies/index.js'
 import cleanTV from './lib/tv/index.js'
 
 async function run() {
-  const overseerrRequests = await getAllAvailableOverseerrRequests()
-  const overseerrMovieRequests = overseerrRequests.filter(r => r.type === 'movie')
-
-  await cleanMovies(overseerrMovieRequests)
-  // await cleanTV()
+  const overseerrRequests = await getAllOverseerrRequests()
+  
+  await cleanMovies(overseerrRequests)
+  await cleanTV(overseerrRequests)
 }
 
 run()
