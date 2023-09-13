@@ -1,15 +1,15 @@
 import 'dotenv/config'
 
+import { getAllAvailableOverseerrRequests } from './lib/apis/overseerr.js'
 import cleanMovies from './lib/movies/index.js'
 import cleanTV from './lib/tv/index.js'
-import { resyncOmbiMedia } from './lib/apis/ombi.js'
 
 async function run() {
- await cleanMovies()
- await cleanTV()
- 
- // Media resync applies to both movies and TV.
- await resyncOmbiMedia()
+  const overseerrRequests = await getAllAvailableOverseerrRequests()
+  const overseerrMovieRequests = overseerrRequests.filter(r => r.type === 'movie')
+
+  await cleanMovies(overseerrMovieRequests)
+  // await cleanTV()
 }
 
 run()
